@@ -3,4 +3,11 @@ $(document).ready(function () {
       $('#sidebar').toggleClass('active');
       $(this).toggleClass('active');
     });
+
+    
+    $('#orgSubMenu').on('click', function (event) {
+      alert();
+    });
+
+
   });

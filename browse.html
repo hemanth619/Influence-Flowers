@@ -30,7 +30,7 @@
     <!-- Sidebar Holder -->
     <nav id="sidebar">
       <div class="sidebar-header">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="browse.html">
           <img src="imgs/sparky.jpg" alt="logo" style="width:40px;">
         </a>
         <label>Influence Map</label>
@@ -47,10 +47,10 @@
           </div>
         </div>
       </div>
-      <ul class="list-unstyled components">
-        <li class="active">
-          <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">People</a>
-          <ul class="collapse list-unstyled" id="homeSubmenu">
+      <ul id="sidebar" class="list-unstyled components">
+        <li>
+          <a href="#peopleSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">People</a>
+          <ul class="collapse list-unstyled" id="peopleSubMenu">
             <li>
               <a href="#">People 1</a>
             </li>
@@ -63,22 +63,16 @@
           </ul>
         </li>
         <li>
-          <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Venues</a>
-          <ul class="collapse list-unstyled" id="homeSubmenu">
+          <a href="#venueSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Venues</a>
+          <ul class="collapse list-unstyled" id="venueSubMenu">
             <li>
               <a href="#">Venues 1</a>
-            </li>
-            <li>
-              <a href="#">Venues 2</a>
-            </li>
-            <li>
-              <a href="#">Venues 3</a>
             </li>
           </ul>
         </li>
         <li>
-          <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Project</a>
-          <ul class="collapse list-unstyled" id="homeSubmenu">
+          <a href="#projectSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Project</a>
+          <ul class="collapse list-unstyled" id="projectSubMenu">
             <li>
               <a href="#">Project 1</a>
             </li>
@@ -91,8 +85,8 @@
           </ul>
         </li>
         <li>
-          <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Organization</a>
-          <ul class="collapse list-unstyled" id="homeSubmenu">
+          <a href="#orgSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Organization</a>
+          <ul class="collapse list-unstyled" id="orgSubMenu">
             <li>
               <a href="#">Organization 1</a>
             </li>
@@ -137,13 +131,13 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="nav navbar-nav ml-auto">
               <li class="nav-item active">
-                <a class="nav-link" href="#">Gallery</a>
+                <a class="nav-link" href="browse.html">Gallery</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Create</a>
+                <a class="nav-link" href="create-flower.html">Create</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">About</a>
+                <a class="nav-link" href="about.html">About</a>
               </li>
             </ul>
           </div>
@@ -169,7 +163,7 @@
     crossorigin="anonymous"></script>
 
   <script src="scripts/index.js"></script>
-  
+
 </body>
 
 </html>
