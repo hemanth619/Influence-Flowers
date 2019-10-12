@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
     integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
   <!-- Our Custom CSS -->
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/style.css">
 
   <!-- Font Awesome JS -->
   <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
@@ -30,8 +30,8 @@
     <!-- Sidebar Holder -->
     <nav id="sidebar">
       <div class="sidebar-header">
-        <a class="navbar-brand" href="browse.html">
-          <img src="imgs/sparky.jpg" alt="logo" style="width:40px;">
+        <a class="navbar-brand" href="airbnb-browse.html">
+          <img src="/imgs/sparky.jpg" alt="logo" style="width:40px;">
         </a>
         <label>Influence Map</label>
       </div>
@@ -47,10 +47,11 @@
           </div>
         </div>
       </div>
+      <!-- Have to change SideMenu -->
       <ul id="sidebar" class="list-unstyled components">
         <li>
-          <a href="#peopleSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">People</a>
-          <ul class="collapse list-unstyled" id="peopleSubMenu">
+          <a href="#genreSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Genre</a>
+          <ul class="collapse list-unstyled" id="genreSubMenu">
             <li>
               <a href="#">People 1</a>
             </li>
@@ -119,11 +120,11 @@
           </button>
 
           <ul class="nav navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">IMDB</a>
-            </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Airbnb</a>
+              <a class="nav-link" href="/Imdb/browse.html">IMDB</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="airbnb-browse.html">Airbnb</a>
             </li>
           </ul>
 
@@ -131,13 +132,13 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="nav navbar-nav ml-auto">
               <li class="nav-item active">
-                <a class="nav-link" href="browse.html">Gallery</a>
+                <a class="nav-link" href="airbnb-browse.html">Gallery</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="create-flower.html">Create</a>
+                <a class="nav-link" href="airbnb-create-flower.html">Create</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="about.html">About</a>
+                <a class="nav-link" href="airbnb-about.html">About</a>
               </li>
             </ul>
           </div>
@@ -162,7 +163,7 @@
     integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
     crossorigin="anonymous"></script>
 
-  <script src="scripts/index.js"></script>
+  <script src="/scripts/Airbnb/airbnb-browse.js"></script>
 
 </body>
 
