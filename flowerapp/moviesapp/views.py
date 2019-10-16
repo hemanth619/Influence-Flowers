@@ -18,4 +18,4 @@ def browse(request):
     for i in range(len(rows)):
         entity = Entity(rows[i][0], i)
         entity_list.append(entity)
-    return render(request, "browse.html", {"entity_list": entity_list})
+    return render(request, "browse_movies.html", {"entity_list": entity_list})

@@ -3,4 +3,4 @@ from django.shortcuts import render
 # Create your views here.
 
 def browse(request):
-    return render(request, "browse.html")
+    return render(request, "browse_airbnb.html")
