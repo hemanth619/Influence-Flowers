@@ -1,11 +1,5 @@
-/*
- * Skin: InfluenceMap Custom
- * ----------
- */
 .skin-custom .main-header .navbar {
   background-color: #ffffff;
-  /* margin-left: 40%; */
-  /* border-bottom: 1px solid #fff; */
 }
 .skin-custom .main-header .navbar-home,
 .skin-custom .header-browse .navbar{
@@ -58,7 +52,6 @@
   color: #456990;
   border-bottom: 0 solid transparent;
   text-align: left;
-  /* padding-left: 40px; */
   width: 40%;
 }
 .skin-custom .header-browse .logo {
@@ -68,9 +61,6 @@
   width: 440px;
   background-color: #f9f9f9;
 }
-/* .skin-custom .main-header .logo:hover {
-  background-color: #fff;
-} */
 .skin-custom .main-header li.user-header {
   background-color: #fff;
 }
@@ -80,12 +70,6 @@
 .skin-custom .content-wrapper {
   background-color: #fff;
 }
-
-/* .skin-custom .wrapper,
-.skin-custom .main-sidebar,
-.skin-custom .left-side {
-  background-color: #fff;
-} */
 .skin-custom .main-sidebar {
   border-right: 1px solid #eee;
 }
@@ -105,9 +89,6 @@
 .skin-custom .sidebar-menu > li.menu-open > a {
   color: #ffffff;
   background: #1e282c;
-}
-.skin-custom .sidebar-menu > li.active > a {
-  /* border-left-color: #456990; */
 }
 .skin-custom .sidebar-menu > li > .treeview-menu {
   margin: 0 1px;
@@ -161,10 +142,6 @@
   border-bottom-left-radius: 0;
 }
 .skin-custom.layout-top-nav .main-header > .logo {
-  /* background-color: #3c8dbc; */
   color: #ffffff;
   border-bottom: 0 solid transparent;
-}
-.skin-custom.layout-top-nav .main-header > .logo:hover {
-  /* background-color: #3b8ab8; */
 }
