@@ -50,55 +50,53 @@
       <!-- Have to change SideMenu -->
       <ul id="sidebar" class="list-unstyled components">
         <li>
-          <a href="#genreSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Genre</a>
+          <a href="#genreSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Country</a>
           <ul class="collapse list-unstyled" id="genreSubMenu">
             <li>
-              <a href="#">People 1</a>
+              <a href="#" onclick="return loadCities('United States')">United States</a>
             </li>
             <li>
-              <a href="#">People 2</a>
+              <a href="#" onclick="return loadCities('United Kingdom')">United Kingdom</a>
             </li>
             <li>
-              <a href="#">People 3</a>
+              <a href="#" onclick="return loadCities('Italy')">Italy</a>
             </li>
           </ul>
         </li>
-        <li>
-          <a href="#venueSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Venues</a>
-          <ul class="collapse list-unstyled" id="venueSubMenu">
-            <li>
-              <a href="#">Venues 1</a>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <a href="#projectSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Project</a>
-          <ul class="collapse list-unstyled" id="projectSubMenu">
-            <li>
-              <a href="#">Project 1</a>
-            </li>
-            <li>
-              <a href="#">Project 2</a>
-            </li>
-            <li>
-              <a href="#">Project 3</a>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <a href="#orgSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Organization</a>
-          <ul class="collapse list-unstyled" id="orgSubMenu">
-            <li>
-              <a href="#">Organization 1</a>
-            </li>
-            <li>
-              <a href="#">Organization 2</a>
-            </li>
-            <li>
-              <a href="#">Organization 3</a>
-            </li>
-          </ul>
-        </li>
+<!--        <li>-->
+<!--          <a href="#projectSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">United States</a>-->
+<!--          <ul class="collapse list-unstyled" id="projectSubMenu">-->
+<!--            <li>-->
+<!--              <a href="#">Austin</a>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--              <a href="#">Boston</a>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--              <a href="#">Chicago</a>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--              <a href="#">Los Angeles</a>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--              <a href="#">New York</a>-->
+<!--            </li>-->
+<!--          </ul>-->
+<!--        </li>-->
+<!--        <li>-->
+<!--          <a href="#orgSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Organization</a>-->
+<!--          <ul class="collapse list-unstyled" id="orgSubMenu">-->
+<!--            <li>-->
+<!--              <a href="#">Organization 1</a>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--              <a href="#">Organization 2</a>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--              <a href="#">Organization 3</a>-->
+<!--            </li>-->
+<!--          </ul>-->
+<!--        </li>-->
       </ul>
     </nav>
 
@@ -145,9 +143,14 @@
         </div>
       </nav>
 
-      <h2>Content Here!!</h2>
+      <h2>Cities</h2>
 
-    </div>
+      <div class="cities"></div>
+
+      </div>
+
+
+  </div>
   </div>
 
   <!-- jQuery CDN - Slim version (=without AJAX) -->
@@ -162,6 +165,8 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
     integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
     crossorigin="anonymous"></script>
+
+  <script src="/scripts/d3.v4.js" ></script>
 
   <script src="/scripts/Airbnb/airbnb-browse.js"></script>
 
