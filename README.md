@@ -27,3 +27,12 @@
 - You can see other configurations which allow you to launch the Chrome Browser or [Browser Preview extension](https://marketplace.visualstudio.com/items?itemName=auchenberg.vscode-browser-preview) for debugging
 - The default port is 8001 and can be changed in the launch.json file under .vscode folder
 
+### Development Commands
+```
+Import CSV into sqlite
+(base) ➜  Influence-Flowers-Sai-Akshit-Sandeep-Raghul-Akshay git:(master) ✗ sqlite3 db.sqlite3
+SQLite version 3.29.0 2019-07-10 17:32:03
+Enter ".help" for usage hints.
+sqlite> .mode csv
+sqlite> .import /Users/sanadell/test.csv Test
+```
