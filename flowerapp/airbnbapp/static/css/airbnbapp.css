@@ -1,0 +1,39 @@
+.content-wrapper-home {
+  background-color: #fff;
+}
+.content-wrapper-home,
+.main-footer-home {
+  margin-left: 0;
+}
+.main-sidebar-wide {
+  width: 440px;
+  background-color: #fff;
+}
+.main-sidebar-dark {
+  width: 270px;
+  background-color: #222d32;
+}
+.content-wrapper-browse {
+  min-height: 0;
+  margin-left: 270px;
+  z-index: 800;
+}
+.info-box {
+  min-height: 50px;
+  max-height: auto;
+  border: 1px solid gray;
+  width: 260px;
+  float: left;
+  margin: 5px 0px 5px 20px;
+  color: black;
+}
+.info-box-content {
+  margin-left: 5px;
+  padding: 9px 5px;
+}
+.info-box-text {
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
