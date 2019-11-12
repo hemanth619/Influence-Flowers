@@ -22,3 +22,10 @@ class DBConnection:
         cur.execute("SELECT * FROM airbnb_ego_selection")
         rows = cur.fetchall()
         return rows
+
+    def get_neighbourhood_reviews(self, cityname):
+        cur = self.conn.cursor()
+        query_string = "select neighbourhood,  sum(number_of_reviews) as reviews_count from us_data where City = "+cityname+" group by neighbourhood order by reviews_count desc;"
+        cur.execute(query_string)
+        rows = cur.fetchall()
+        return rows

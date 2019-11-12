@@ -1,0 +1,56 @@
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'css/airbnbapp.css' %}" />
+<link rel="stylesheet" href="{% static 'css/skins/skin-custom.css' %}">
+<html>
+{% include 'header.html' %}
+
+<body class="hold-transition skin-custom sidebar-mini">
+  <div class="wrapper">
+    <header class="main-header header-browse">
+      {% include 'pagehead.html' %}
+    </header>
+    <div id="bar_chart"></div>
+  </div>
+</body>
+
+<script type="text/javascript">
+  var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+  };
+
+  $(document).ready(function () {
+    // console.log("Page");
+    var city_name = getUrlParameter('city_name').toLowerCase();
+    // console.log(city_name);
+    $.ajax({
+      type: "POST",
+      url: "/loadbarchart/",
+      data: {"city_name": JSON.stringify(city_name)},
+      success: function (result) { // return data if success
+
+        console.log(result);
+        // display_name = capitalizeString(result['node_type'], result['node_name']);
+        // flower_name  = result['flower_name'];
+        // populateNodeInfoContent(result);
+        // document.getElementById("prev_node_page").disabled=true;
+        // if (result['max_page']===1){document.getElementById("next_node_page").disabled=true}
+        // document.getElementById("node_info_modal").style.display = "block";
+      },
+      error: function (result) {
+      }
+    });
+  });
+</script>
+
+</html>

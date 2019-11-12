@@ -24,5 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', rootviews.main),
     url(r'^browsemovies', moviesviews.browse),
-    url(r'^browseproperties', airbnbviews.browse)
+    url(r'^browseproperties', airbnbviews.browse),
+    url(r'^loadairbnbflower', airbnbviews.flower),
+    url(r'^loadbarchart', airbnbviews.barchart)
 ]
