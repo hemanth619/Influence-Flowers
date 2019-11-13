@@ -23,9 +23,16 @@ class DBConnection:
         rows = cur.fetchall()
         return rows
 
-    def get_neighbourhood_reviews(self, cityname):
+    def get_neighbourhood_reviews(self, cityname, countryname):
         cur = self.conn.cursor()
-        query_string = "select neighbourhood,  sum(number_of_reviews) as reviews_count from us_data where City = "+cityname+" group by neighbourhood order by reviews_count desc;"
+        query_string = "select neighbourhood,  sum(number_of_reviews) as reviews_count from " +  countryname + " where City = "+cityname+ " group by neighbourhood order by reviews_count desc;"
+        cur.execute(query_string)
+        rows = cur.fetchall()
+        return rows
+
+    def get_neighbourhood_listing(self, cityname, country):
+        cur = self.conn.cursor()
+        query_string = "select neighbourhood, count(*) as listings_count from " + country + " where City = " + cityname + " group by neighbourhood order by listings_count desc;"
         cur.execute(query_string)
         rows = cur.fetchall()
         return rows

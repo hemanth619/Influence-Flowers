@@ -30,16 +30,122 @@
   };
 
   $(document).ready(function () {
-    // console.log("Page");
+    
     var city_name = getUrlParameter('city_name').toLowerCase();
-    // console.log(city_name);
+
+    city_name = city_name.split(' ').join('');
+
+    var db_country_name = new Map();
+    db_country_name.set('austin', 'us_data');
+    db_country_name.set('boston', 'us_data');
+    db_country_name.set('chicago', 'us_data');
+    db_country_name.set('losangeles', 'us_data');
+    db_country_name.set('newyork', 'us_data');
+    db_country_name.set('bristol', 'uk_data');
+    db_country_name.set('edinburgh', 'uk_data');
+    db_country_name.set('london', 'uk_data');
+    db_country_name.set('manchester', 'uk_data');
+    db_country_name.set('milan', 'italy_data');
+    db_country_name.set('naples', 'italy_data');
+    db_country_name.set('rome', 'italy_data');
+    db_country_name.set('venice', 'italy_data');
+    
+
+
     $.ajax({
       type: "POST",
       url: "/loadbarchart/",
-      data: {"city_name": JSON.stringify(city_name)},
+      data: {"city_name": JSON.stringify(city_name), "country_name": JSON.stringify(db_country_name.get(city_name))},
       success: function (result) { // return data if success
 
-        console.log(result);
+        var width = 1200,
+          height = 500;
+        var x = d3.scaleBand()
+                  .range([0, width])
+                  .padding(0.2);
+        var y = d3.scaleLinear()
+                  .range([height, 0]);
+
+        var x1 = d3.scaleBand()
+                  .range([0, width])
+                  .padding(0.2);
+        var y1 = d3.scaleLinear()
+                  .range([height, 0]);
+
+        var svg = d3.select("#bar_chart").append("svg")
+                    .attr("width", width)
+                    .attr("height", height+100)
+                    .append("g")
+                    .attr("transform", 
+                          "translate(" + 40 + "," + 40 + ")");
+
+        // result.array.forEach(element => {
+        //     element.review_count = +element.review_count;
+        // });
+
+        x.domain(result.map(function(d) { return d.neighbourhood; }));
+        y.domain(d3.extent(result, function(d) { 
+            return +d.count; 
+          }));
+
+
+         svg.selectAll(".bar")
+            .data(result)
+          .enter().append("rect")
+            .style("fill", function(d){
+              if(d.type == "review")
+                return "#e48268"
+              else 
+                return "#6bacd0"
+            })
+            .attr("class", "bar")
+            .attr("x", function(d) { 
+              if(d.type == "review")
+                return x(d.neighbourhood);
+              else 
+                return x(d.neighbourhood);
+               
+              
+            })
+            .attr("width", x.bandwidth())
+            .attr("y", function(d) {
+               return  y(d.count);
+            })
+            .attr("height", function(d) { return height - y(d.count); })
+            .on("mouseover", function(d){
+              var neighbourhood = d.neighbourhood;
+              svg.selectAll("rect")
+                  .style("opacity", function(d){
+                    if(d.neighbourhood == neighbourhood){
+                      return 1;
+                    } else {
+                      return 0.25;
+                    }
+                  })
+            })
+            .on("mouseout", function(d){
+              svg.selectAll("rect")
+              .style("opacity", 1);
+            })
+          
+           
+            svg.append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(x)
+                .tickFormat(function(d) {
+                    // return d;
+                  }));
+                //   .selectAll("text")
+                // .attr("y", 0)
+                // .attr("x", 40)
+                // .attr("dy", ".35em")
+                // .attr("transform", "rotate(90)");
+                
+
+            // add the y Axis
+            svg.append("g")
+                .call(d3.axisLeft(y));
+
         // display_name = capitalizeString(result['node_type'], result['node_name']);
         // flower_name  = result['flower_name'];
         // populateNodeInfoContent(result);
