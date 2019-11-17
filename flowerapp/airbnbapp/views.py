@@ -40,10 +40,32 @@ def flower(request):
 @csrf_exempt
 def barchart(request):
     db_connection = DBConnection()
-    city_name = request.GET.get('city_name')
-    rows = db_connection.get_neighbourhood_reviews("austin")
+    city_name = request.POST.get('city_name')
+    country_name = request.POST.get('country_name')
+    review_rows = db_connection.get_neighbourhood_reviews(city_name, country_name)
+    listing_rows = db_connection.get_neighbourhood_listing(city_name, country_name)
+
     barchart_list = []
-    for each_row in rows:
-        bar = BarChart(each_row[0], each_row[1])
-        barchart_list.append(bar)
+    print(len(review_rows))
+    print(len(listing_rows))
+
+    review_list = {}
+
+    for each_row in review_rows:
+        review_list[each_row[0]] = each_row[1]
+   
+
+    for each_row in listing_rows:
+        reviewObj = {}
+        reviewObj['neighbourhood'] = each_row[0]
+        reviewObj['count'] = review_list[each_row[0]]
+        reviewObj['type'] = "review"
+        barchart_list.append(reviewObj)
+
+        listingObj = {}
+        listingObj['neighbourhood'] = each_row[0] + "1"
+        listingObj['count'] = each_row[1] * 25
+        listingObj['type'] = "listing"
+        barchart_list.append(listingObj)
+    
     return JsonResponse(barchart_list, safe=False)
