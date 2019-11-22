@@ -26,5 +26,6 @@ urlpatterns = [
     url(r'^browsemovies', moviesviews.browse),
     url(r'^browseproperties', airbnbviews.browse),
     url(r'^loadairbnbflower', airbnbviews.flower),
-    url(r'^loadbarchart', airbnbviews.barchart)
+    url(r'^loadbarchart', airbnbviews.barchart),
+    url(r'^regenerate', airbnbviews.regenerate)
 ]

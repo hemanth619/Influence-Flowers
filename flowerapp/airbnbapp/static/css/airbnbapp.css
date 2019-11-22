@@ -37,3 +37,24 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
+.yearslider {
+  height: 15px;
+  width: 315px;
+  margin: 12 20 6 40;
+}
+.noUi-horizontal .noUi-handle {
+  width: auto;
+  height: 24;
+  font-size: 14px;
+  line-height: 1.8;
+  /* padding: 0 5; */
+}
+.noUi-handle:after, .noUi-handle:before {
+  content: none;
+}
+div#reviews_slider .noUI-connect {
+  background: #F47E60;
+}
+div#listings_slider .noUi-connect {
+  background: #6BACD0;
+}

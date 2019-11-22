@@ -84,3 +84,19 @@ def barchart(request):
     
     
     return JsonResponse(barchart_list, safe=False)
+
+@csrf_exempt
+def regenerate(request):
+    db_connection = DBConnection()
+    return_response = []
+    city_name = request.POST.get('city_name')
+    country_name = request.POST.get('country_name')
+    from_review_year = int(request.POST.get('from_review_year'))
+    to_review_year = int(request.POST.get('to_review_year'))
+    from_listing_year = int(request.POST.get('from_listing_year'))
+    to_listing_year = int(request.POST.get('to_listing_year'))
+    reviews_per_year = db_connection.get_reviews_between_years(city_name, from_review_year, to_review_year)
+    listings_per_year = db_connection.get_listings_between_years(city_name, country_name, from_listing_year, to_listing_year)
+    print(reviews_per_year)
+    print(listings_per_year)
+    return JsonResponse(return_response, safe=False)

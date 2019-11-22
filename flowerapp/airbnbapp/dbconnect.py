@@ -52,3 +52,18 @@ class DBConnection:
         cur.execute(query_string)
         rows = cur.fetchall()
         return rows
+
+    def get_reviews_between_years(self, cityname, from_year, to_year):
+        cur = self.conn.cursor()
+        tablename = json.loads(cityname)+"_reviews"
+        query_string = "select count(*) as number_of_reviews, CAST(strftime('%Y',date) as INT) as year from " + tablename + " where year between "+ str(from_year) +" and "+ str(to_year) +" group by year;"
+        cur.execute(query_string)
+        rows = cur.fetchall()
+        return rows
+
+    def get_listings_between_years(self, cityname, country, from_year, to_year):
+        cur = self.conn.cursor()
+        query_string = "select CAST(strftime('%Y', first_review) as INT) as year, count(*) as number_of_listings from "+ country +" where year between "+ str(from_year) +" and "+ str(to_year) +" group by year ;"
+        cur.execute(query_string)
+        rows = cur.fetchall()
+        return rows
