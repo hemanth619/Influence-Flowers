@@ -39,20 +39,17 @@ def flower(request):
 
 @csrf_exempt
 def barchart(request):
-    db_connection = DBConnection()
-    city_name = request.POST.get('city_name')
-    country_name = request.POST.get('country_name')
-    review_rows = db_connection.get_neighbourhood_reviews(city_name, country_name)
-    listing_rows = db_connection.get_neighbourhood_listing(city_name, country_name)
-    reviews_per_year = db_connection.get_reviews_per_year(city_name)
-    listings_per_year = db_connection.get_listings_per_year(city_name, country_name)
 
     barchart_list = [[],[],[]]
 
-    review_list = {}
 
-    for each_row in review_rows:
-        review_list[each_row[0]] = each_row[1]
+    db_connection = DBConnection()
+    city_name = request.POST.get('city_name')
+    country_name = request.POST.get('country_name')
+
+
+    reviews_per_year = db_connection.get_reviews_per_year(city_name)
+    listings_per_year = db_connection.get_listings_per_year(city_name, country_name)
 
     # yearly_reviews = []
     for each_row in reviews_per_year:
@@ -67,36 +64,57 @@ def barchart(request):
         yearlyListingsObj['year'] = each_row[0]
         yearlyListingsObj['num_of_listings'] = each_row[1]
         barchart_list[2].append(yearlyListingsObj)
-   
+
+    barchart_list[0] = computeBottomChartData(db_connection, city_name, country_name, str(2009), str(2019),str(2009), str(2019))
+
+    return JsonResponse(barchart_list, safe=False)
+
+@csrf_exempt
+def computeBottomChartData(db_connection, city_name, country_name, from_review_year, to_review_year, from_listing_year, to_listing_year):
+
+    barchart = []
+    
+    review_rows = db_connection.get_neighbourhood_reviews_between_years(city_name, country_name, from_review_year, to_review_year)
+    listing_rows = db_connection.get_neighbourhood_listing_between_years(city_name, country_name, from_listing_year, to_listing_year)
+
+    review_list = {}
+
+    for each_row in review_rows:
+        review_list[each_row[0]] = each_row[1]
+
+
     for each_row in listing_rows:
         reviewObj = {}
         reviewObj['neighbourhood'] = each_row[0]
-        reviewObj['count'] = review_list[each_row[0]]
+
+        # Check if that neighbourhood exists for the given range of years
+        if each_row[0] in review_list:
+            reviewObj['count'] = review_list[each_row[0]]
+        else:
+            reviewObj['count'] = 0
+
         reviewObj['type'] = "review"
-        barchart_list[0].append(reviewObj)
+        barchart.append(reviewObj)
 
         listingObj = {}
         listingObj['neighbourhood'] = each_row[0] + "1"
         listingObj['count'] = each_row[1] * 25
         listingObj['type'] = "listing"
-        barchart_list[0].append(listingObj)
+        barchart.append(listingObj)
 
-    
-    
-    return JsonResponse(barchart_list, safe=False)
+    return barchart
 
 @csrf_exempt
 def regenerate(request):
     db_connection = DBConnection()
-    return_response = []
+    return_response = [[]]
     city_name = request.POST.get('city_name')
     country_name = request.POST.get('country_name')
     from_review_year = int(request.POST.get('from_review_year'))
     to_review_year = int(request.POST.get('to_review_year'))
     from_listing_year = int(request.POST.get('from_listing_year'))
     to_listing_year = int(request.POST.get('to_listing_year'))
-    reviews_per_year = db_connection.get_reviews_between_years(city_name, from_review_year, to_review_year)
-    listings_per_year = db_connection.get_listings_between_years(city_name, country_name, from_listing_year, to_listing_year)
-    print(reviews_per_year)
-    print(listings_per_year)
+    
+    return_response[0] = computeBottomChartData(db_connection, city_name, country_name, from_review_year, to_review_year, from_listing_year, to_listing_year)
+
     return JsonResponse(return_response, safe=False)

@@ -49,9 +49,9 @@
   line-height: 1.8;
   /* padding: 0 5; */
 }
-.noUi-handle:after, .noUi-handle:before {
-  content: none;
-}
+/* .noUi-handle:after, .noUi-handle:before {
+ 
+} */
 div#reviews_slider .noUI-connect {
   background: #F47E60;
 }

@@ -31,9 +31,23 @@ class DBConnection:
         rows = cur.fetchall()
         return rows
 
-    def get_neighbourhood_listing(self, cityname, country):
+    def get_neighbourhood_listing(self, cityname, countryname):
         cur = self.conn.cursor()
-        query_string = "select neighbourhood, count(*) as listings_count from " + country + " where City = " + cityname + " group by neighbourhood order by listings_count desc;"
+        query_string = "select neighbourhood, count(*) as listings_count from " + countryname + " where City = " + cityname + " group by neighbourhood order by listings_count desc;"
+        cur.execute(query_string)
+        rows = cur.fetchall()
+        return rows
+
+    def get_neighbourhood_reviews_between_years(self, cityname, countryname, from_year, to_year):
+        cur = self.conn.cursor()
+        query_string = "select neighbourhood,  sum(number_of_reviews) as reviews_count from" + countryname + " where City=" + cityname + " and strftime('%Y', first_review) between '" + str(from_year) + "' and '" + str(to_year) +"' group by neighbourhood order by reviews_count desc;"
+        cur.execute(query_string)
+        rows = cur.fetchall()
+        return rows
+
+    def get_neighbourhood_listing_between_years(self, cityname, countryname, from_year, to_year):
+        cur = self.conn.cursor()
+        query_string = "select neighbourhood, count(*) as listings_count from " + countryname + " where City = " + cityname + " and strftime('%Y',first_review) between '" + str(from_year) + "' and '" + str(to_year) + "' group by neighbourhood order by listings_count desc ;"
         cur.execute(query_string)
         rows = cur.fetchall()
         return rows
@@ -53,17 +67,4 @@ class DBConnection:
         rows = cur.fetchall()
         return rows
 
-    def get_reviews_between_years(self, cityname, from_year, to_year):
-        cur = self.conn.cursor()
-        tablename = json.loads(cityname)+"_reviews"
-        query_string = "select count(*) as number_of_reviews, CAST(strftime('%Y',date) as INT) as year from " + tablename + " where year between "+ str(from_year) +" and "+ str(to_year) +" group by year;"
-        cur.execute(query_string)
-        rows = cur.fetchall()
-        return rows
-
-    def get_listings_between_years(self, cityname, country, from_year, to_year):
-        cur = self.conn.cursor()
-        query_string = "select CAST(strftime('%Y', first_review) as INT) as year, count(*) as number_of_listings from "+ country +" where year between "+ str(from_year) +" and "+ str(to_year) +" group by year ;"
-        cur.execute(query_string)
-        rows = cur.fetchall()
-        return rows
+    

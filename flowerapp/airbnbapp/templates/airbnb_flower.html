@@ -14,7 +14,8 @@
     <div id="reviews_slider" class="yearSlider"></div>
     <div id="listings_slider" class="yearSlider"></div>
     <div id="listings_bar_chart"></div>
-    <div style="padding-left: 5%;" ><button id="submit_stats" type="button" class="btn btn-primary">Update Flower</button></div>
+    <div style="padding-left: 5%;"><button id="submit_stats" type="button" class="btn btn-primary">Update
+        Flower</button></div>
   </div>
 </body>
 
@@ -23,21 +24,21 @@
 <script type="text/javascript">
   var getUrlParameter = function getUrlParameter(sParam) {
     var sPageURL = window.location.search.substring(1),
-        sURLVariables = sPageURL.split('&'),
-        sParameterName,
-        i;
+      sURLVariables = sPageURL.split('&'),
+      sParameterName,
+      i;
 
     for (i = 0; i < sURLVariables.length; i++) {
-        sParameterName = sURLVariables[i].split('=');
+      sParameterName = sURLVariables[i].split('=');
 
-        if (sParameterName[0] === sParam) {
-            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
-        }
+      if (sParameterName[0] === sParam) {
+        return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+      }
     }
   };
 
   $(document).ready(function () {
-    
+
     var city_name = getUrlParameter('city_name').toLowerCase();
 
     city_name = city_name.split(' ').join('');
@@ -56,16 +57,17 @@
     db_country_name.set('naples', 'italy_data');
     db_country_name.set('rome', 'italy_data');
     db_country_name.set('venice', 'italy_data');
-    
+
     var chartoption = {
       min: 2009,
       max: 2019,
       xticks: 10, yticks: 3,
       width: 200, height: 30
     }
-    
+
     var review_chart = new ReviewChart('#reviews_bar_chart');
     var listing_chart = new ListingChart('#listings_bar_chart');
+    var bottom_chart = new BottomChart('#');
     var review_slider = document.getElementById('reviews_slider');
     var listing_slider = document.getElementById('listings_slider');
     noUiSlider.create(review_slider, {
@@ -111,15 +113,15 @@
     //   document.getElementById('listings-upper-value')
     // ];
 
-    review_slider.noUiSlider.on('update',function(values, handle){
+    review_slider.noUiSlider.on('update', function (values, handle) {
       handles[handle].innerText = parseInt(values[handle]);
       // lables[handle].innerText = parseInt(values[handle]);
       // updateValues();
       review_chart.updateRangeValues(values[0], values[1])
     });
 
-    listing_slider.noUiSlider.on('update',function(values, handle){
-      handles[handle+2].innerText = parseInt(values[handle]);
+    listing_slider.noUiSlider.on('update', function (values, handle) {
+      handles[handle + 2].innerText = parseInt(values[handle]);
       // lables[handle].innerText = parseInt(values[handle]);
       // updateValues();
       listing_chart.updateRangeValues(values[0], values[1]);
@@ -128,99 +130,12 @@
     $.ajax({
       type: "POST",
       url: "/loadbarchart/",
-      data: {"city_name": JSON.stringify(city_name), "country_name": JSON.stringify(db_country_name.get(city_name))},
+      data: { "city_name": JSON.stringify(city_name), "country_name": JSON.stringify(db_country_name.get(city_name)) },
       success: function (result) { // return data if success
 
-        var width = 1200,
-          height = 500;
-        var x = d3.scaleBand()
-                  .range([0, width])
-                  .padding(0.2);
-        var y = d3.scaleLinear()
-                  .range([height, 0]);
+        //Bottom chart
+        bottom_chart.initChart(result);
 
-        var svg = d3.select("#bar_chart").append("svg")
-                    .attr("width", width)
-                    .attr("height", height+100)
-                    .append("g")
-                    .attr("transform", 
-                          "translate(" + 40 + "," + 40 + ")");
-
-        // result.array.forEach(element => {
-        //     element.review_count = +element.review_count;
-        // });
-
-        x.domain(result[0].map(function(d) { return d.neighbourhood; }));
-        y.domain(d3.extent(result[0], function(d) { 
-            return +d.count; 
-          }));
-
-
-         svg.selectAll(".bar")
-            .data(result[0])
-          .enter().append("rect")
-            .style("fill", function(d){
-              if(d.type == "review")
-                return "#e48268"
-              else 
-                return "#6bacd0"
-            })
-            .attr("class", "bar")
-            .attr("x", function(d) { 
-              if(d.type == "review")
-                return x(d.neighbourhood);
-              else 
-                return x(d.neighbourhood);
-               
-              
-            })
-            .attr("width", x.bandwidth())
-            .attr("y", function(d) {
-               return  y(d.count);
-            })
-            .attr("height", function(d) { return height - y(d.count); })
-            .on("mouseover", function(d){
-              var neighbourhood = d.neighbourhood;
-              svg.selectAll("rect")
-                  .style("opacity", function(d){
-                    if(d.neighbourhood == neighbourhood){
-                      return 1;
-                    } else {
-                      return 0.25;
-                    }
-                  })
-            })
-            .on("mouseout", function(d){
-              svg.selectAll("rect")
-              .style("opacity", 1);
-            })
-          
-           
-            svg.append("g")
-                .attr("transform", "translate(0," + height + ")")
-                .call(d3.axisBottom(x)
-                .tickFormat(function(d) {
-                    // return d;
-                  }));
-                //   .selectAll("text")
-                // .attr("y", 0)
-                // .attr("x", 40)
-                // .attr("dy", ".35em")
-                // .attr("transform", "rotate(90)");
-                
-
-            // add the y Axis
-            svg.append("g")
-                .call(d3.axisLeft(y));
-
-
-
-            var x1 = d3.scaleBand()
-                        .range([0, width])
-                        .padding(0.2);
-            var y1 = d3.scaleLinear()
-                        .range([height, 0]);
-            
         //stat chart 1
         review_chart.initChart(result);
 
@@ -232,7 +147,7 @@
       }
     });
 
-    $("#submit_stats").on('click', function(){
+    $("#submit_stats").on('click', function () {
       var city_name = getUrlParameter('city_name').toLowerCase();
       console.log(review_slider.noUiSlider.get());
       // console.log(review_slider.getElementsByClassName('noUi-handle-upper')[0]);
@@ -241,7 +156,7 @@
       $.ajax({
         type: "POST",
         url: "/regenerate",
-        data:{
+        data: {
           city_name: JSON.stringify(city_name),
           country_name: JSON.stringify(db_country_name.get(city_name)),
           from_review_year: review_slider.noUiSlider.get()[0],
@@ -249,13 +164,13 @@
           from_listing_year: listing_slider.noUiSlider.get()[0],
           to_listing_year: listing_slider.noUiSlider.get()[1]
         },
-        success: function(result){
+        success: function (result) {
           console.log(result);
-          //TODO: redraw the flower (Assuming that flower is drawn first).
-          //TODO: redraw the bottom bar chart.
+          var bottom_chart = new BottomChart('#');
+          bottom_chart.initChart(result);
         }
       });
-    }); 
+    });
 
   });
 </script>
