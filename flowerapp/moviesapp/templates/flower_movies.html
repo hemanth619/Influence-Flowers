@@ -1,0 +1,57 @@
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'css/movieapp.css' %}" />
+<link rel="stylesheet" href="{% static 'css/skins/skin-custom.css' %}">
+<html>
+{% include 'header.html' %}
+<body class="hold-transition skin-custom sidebar-mini">
+<div class="wrapper">
+  <header class="main-header header-flower">
+    {% include 'pagehead.html' %}
+  </header>
+  <aside class="main-sidebar main-sidebar-wide" style="width: 550px;">
+    <section class="sidebar">
+      <script>
+        session = {{session|safe}}
+        config = {{configuration|safe}}
+        console.log(config.flower_name)
+      </script>
+      {% include 'sidepanel_movies.html' %}
+    </section>
+  </aside>
+  <div class="content-wrapper content-wrapper-narrow" style="min-height: 875px;margin-top:50px;margin-left:560px">
+    <div id="flower-container" style="height:860px;">
+      <ul class="nav nav-tabs" style="float:right">
+        <li><a class="btn tab-btn active" href="#tab-director" data-toggle="tab">&nbsp;Director</a></li>
+        <li><a class="btn tab-btn" href="#tab-actor" data-toggle="tab">&nbsp;Actor</a></li>
+      </ul>
+      <!-- Tab content -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane tab-flower active" id="tab-director">
+          <h4>Director</h4>
+          <div align="center">
+            <svg id="graph1" width=1800 height=800></svg>
+          </div>
+        </div>
+        <div role="tabpanel" class="tab-pane tab-flower" id="tab-actor">
+          <h4>Actor</h4>
+          <div align="center">
+            <svg id="graph2" width=1800 height=800></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Node information popup -->
+<div id="node_info_modal" class="node_info_modal">
+  <div id="node_info_container" class="node_info_container">
+    <span class="close">&times;</span>
+    <div id="node_info_content">
+    </div>
+  </div>
+</div>
+</body>
+</html>
+<script src="{% static 'js/d3.min.js' %}"></script>
+
