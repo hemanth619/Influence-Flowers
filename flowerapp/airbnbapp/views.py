@@ -107,7 +107,7 @@ def computeBottomChartData(db_connection, city_name, country_name, from_review_y
 @csrf_exempt
 def regenerate(request):
     db_connection = DBConnection()
-    return_response = [[]]
+    return_response = []
     city_name = request.POST.get('city_name')
     country_name = request.POST.get('country_name')
     from_review_year = int(request.POST.get('from_review_year'))
@@ -115,6 +115,6 @@ def regenerate(request):
     from_listing_year = int(request.POST.get('from_listing_year'))
     to_listing_year = int(request.POST.get('to_listing_year'))
     
-    return_response[0] = computeBottomChartData(db_connection, city_name, country_name, from_review_year, to_review_year, from_listing_year, to_listing_year)
+    return_response = computeBottomChartData(db_connection, city_name, country_name, from_review_year, to_review_year, from_listing_year, to_listing_year)
 
     return JsonResponse(return_response, safe=False)

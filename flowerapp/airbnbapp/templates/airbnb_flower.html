@@ -134,13 +134,13 @@
       success: function (result) { // return data if success
 
         //Bottom chart
-        bottom_chart.initChart(result);
+        bottom_chart.initChart(result[0]);
 
         //stat chart 1
-        review_chart.initChart(result);
+        review_chart.initChart(result[1]);
 
         //Stat chart 2
-        listing_chart.initChart(result);
+        listing_chart.initChart(result[2]);
 
       },
       error: function (result) {

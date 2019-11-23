@@ -12,8 +12,8 @@ class ReviewChart {
     var y1 = d3.scaleLinear()
       .range([height, 0]);
 
-    x1.domain(result[1].map(function (d) { return d.year; }));
-    y1.domain(d3.extent(result[1], function (d) {
+    x1.domain(result.map(function (d) { return d.year; }));
+    y1.domain(d3.extent(result, function (d) {
       return +d.num_of_reviews;
     }));
 
@@ -26,7 +26,7 @@ class ReviewChart {
 
 
     svg2.selectAll(".review-bar")
-      .data(result[1])
+      .data(result)
       .enter().append("rect")
       .style("fill", function (d) {
         return "#e48268"
@@ -101,8 +101,8 @@ class ListingChart {
     var y2 = d3.scaleLinear()
       .range([height, 0]);
 
-    x1.domain(result[1].map(function (d) { return d.year; }));
-    y2.domain(d3.extent(result[2], function (d) {
+    x1.domain(result.map(function (d) { return d.year; }));
+    y2.domain(d3.extent(result, function (d) {
       return +d.num_of_listings;
     }));
 
@@ -115,7 +115,7 @@ class ListingChart {
 
 
     svg3.selectAll(".listing-bar")
-      .data(result[2])
+      .data(result)
       .enter().append("rect")
       .style("fill", function (d) {
         return "#6bacd0"
@@ -202,14 +202,14 @@ class BottomChart {
                   "translate(" + 40 + "," + 40 + ")");
 
 
-    x.domain(result[0].map(function (d) { return d.neighbourhood; }));
-    y.domain(d3.extent(result[0], function (d) {
+    x.domain(result.map(function (d) { return d.neighbourhood; }));
+    y.domain(d3.extent(result, function (d) {
       return +d.count;
     }));
 
 
     svg.selectAll(".bar")
-      .data(result[0])
+      .data(result)
       .enter().append("rect")
       .style("fill", function (d) {
         if (d.type == "review")
