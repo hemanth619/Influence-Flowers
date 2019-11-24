@@ -39,8 +39,8 @@
 }
 .yearslider {
   height: 15px;
-  width: 315px;
-  margin: 12 20 6 40;
+  width: 335px;
+  margin: 12 20 6 25;
 }
 .noUi-horizontal .noUi-handle {
   width: auto;
@@ -58,3 +58,13 @@ div#reviews_slider .noUI-connect {
 div#listings_slider .noUi-connect {
   background: #6BACD0;
 }
+.main-sidebar-wide{
+  width: 440px !important;
+}
+/* .main-sidebar{
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-top: 50px;
+  min-height: 100%;
+} */

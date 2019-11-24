@@ -9,18 +9,60 @@
     <header class="main-header header-browse">
       {% include 'pagehead.html' %}
     </header>
-    <div id="bar_chart"></div>
-    <div id="reviews_bar_chart"></div>
-    <div id="reviews_slider" class="yearSlider"></div>
-    <div id="listings_slider" class="yearSlider"></div>
-    <div id="listings_bar_chart"></div>
-    <div style="padding-left: 5%;"><button id="submit_stats" type="button" class="btn btn-primary">Update
-        Flower</button></div>
+    <aside class="main-sidebar main-sidebar-wide" style="background-color: #fff;">
+      <section class="sidebar">
+        <div id="statpane">
+          <div id="statpane-section1">
+            <div style="padding: 10 15;">
+              <b>Select YearRange</b>
+              <div style="float:right;">
+                <i class="fa fa-square" style="color:#e48268;"></i>&nbsp;Reviews
+                <i class="fa fa-square" style="color: #6bacd0;"></i>&nbsp;Listings
+              </div>
+            </div>
+            <div id="stat_charts" style="width: 385px; height: 230px;">
+                <div id="reviews_bar_chart"></div>
+                <div id="reviews_slider" style="margin-top: -58px;" class="yearSlider"></div>
+                <div id="listings_slider" class="yearSlider"></div>
+                <div id="listings_bar_chart"></div>
+              </div>
+          </div>
+          <div id="statpane-section2" style="margin-top: 100px;">
+            <div style="padding: 10 15;">
+              <div id="numbers_chart">
+                <b>Statictics: Total</b>&nbsp;<span id="stats_total"></span>
+                <div id="review_stat"></div>
+                <div id="listing_stat"></div>
+              </div>
+            </div>
+          </div>
+          <div id="statpane-section3" style="border-top:1px #eee solid;">
+              <div style="padding: 10 15;">
+                <b>Selected Range (for flower)</b>
+                <div><span id="review_range"></span>&nbsp;<span id="listing_range"></span></div>
+                <div><span id="review_count"></span>,&nbsp;<span id="listing_count"></span></div>
+              </div>
+              <div style="padding-left: 5%;">
+                <center><button id="submit_stats" type="button" class="btn btn-primary">Update
+                  Flower</button></center>
+              </div>
+          </div>
+        </div>
+      </section>
+    </aside>
+    <div id="bar_chart" style="position: absolute; bottom: 30; left: 300;"></div>
+    <!-- <div id="reviews_bar_chart"></div> -->
+    <!-- <div id="reviews_slider" class="yearSlider"></div>
+    <div id="listings_slider" class="yearSlider"></div> -->
+    <!-- <div id="listings_bar_chart"></div> -->
+    <!-- <div style="padding-left: 5%;"><button id="submit_stats" type="button" class="btn btn-primary">Update
+        Flower</button></div> -->
   </div>
 </body>
 
 <script src="{% static 'js/airbnb_statchart.js' %} "></script>
 <script src="{% static 'js/wNumb.min.js' %} "></script>
+<script src="https://kit.fontawesome.com/69dd8b541f.js" crossorigin="anonymous"></script>
 <script type="text/javascript">
   var getUrlParameter = function getUrlParameter(sParam) {
     var sPageURL = window.location.search.substring(1),

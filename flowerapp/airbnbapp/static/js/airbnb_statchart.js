@@ -1,11 +1,12 @@
 class ReviewChart {
-  // constructor(divid){
-  //     this.chartsvg = d3.select(divid).append("svg");
-  // }
+  constructor(divid){
+      this.data;
+  }
 
   initChart(result) {
-    var width = 1200,
-      height = 500;
+    this.data = result;
+    var width = 375,
+      height = 100;
     var x1 = d3.scaleBand()
       .range([0, width])
       .padding(0.2);
@@ -22,7 +23,7 @@ class ReviewChart {
       .attr("height", height + 100)
       .append("g")
       .attr("transform",
-        "translate(" + 40 + "," + 40 + ")");
+        "translate(" + 10 + "," + 40 + ")");
 
 
     svg2.selectAll(".review-bar")
@@ -33,10 +34,11 @@ class ReviewChart {
       })
       .attr("class", "review-bar")
       .attr("id", function (d) { return d.year; })
+      .attr("data", function(d){ return d.num_of_reviews; })
       .attr("x", function (d) {
         return x1(d.year);
       })
-      .attr("width", x1.bandwidth() - 30)
+      .attr("width", x1.bandwidth())
       .attr("y", function (d) {
         return y1(d.num_of_reviews);
       })
@@ -59,8 +61,8 @@ class ReviewChart {
 
 
     svg2.append("g")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x1)
+      .attr("transform", "translate(0," + 0 + ")")
+      .call(d3.axisTop(x1)
         .tickFormat(function (d) {
           return d;
         }));
@@ -74,26 +76,46 @@ class ReviewChart {
     // add the y Axis
     svg2.append("g")
       .call(d3.axisLeft(y1));
+    
+    var review_num=0;
+    result.forEach(function(d){
+      // console.log(d);
+      review_num += +d.num_of_reviews;
+    });
+    var num_of_years = Object.keys(result).length;
+    var min_year = result.reduce((min, some) => Math.min(min, some.year), result[0].year);
+    var max_year = result.reduce((max, some) => Math.max(max, some.year), result[0].year);
+    $("#stats_total").text(num_of_years+" years of listing history "+min_year+"~"+max_year);
+    $("#review_stat").text(review_num+" reviews total, "+(review_num/num_of_years).toFixed(2)+" per year.");
+    $("#review_range").text("Reviews: "+min_year+"~"+max_year);
+    $("#review_count").text("Reviews: "+review_num);
   }
 
   updateRangeValues(minyear, maxyear) {
+    var result = this.data;
     var bars = $(".review-bar");
+    var review_num=0;
     for (var i = 0; i < bars.length; i++) {
       var each_bar = $(bars[i]);
       if (minyear > each_bar.attr("id") || each_bar.attr("id") > maxyear) {
+        // review_num += each_bar.attr("data");
+        // console.log(each_bar.attr("data"));
         each_bar.css("fill", "#DDD");
       } else {
+        review_num += parseInt(each_bar.attr("data"));
         each_bar.css("fill", "#e48268");
       }
     }
+    $("#review_count").text("Reviews: "+review_num);
+    $("#review_range").text("Reviews: "+minyear+"~"+maxyear);
   }
 }
 
 class ListingChart {
 
   initChart(result) {
-    var width = 1200,
-      height = 500;
+    var width = 375,
+      height = 100;
     var x1 = d3.scaleBand()
       .range([0, width])
       .padding(0.2);
@@ -111,7 +133,7 @@ class ListingChart {
       .attr("height", height + 100)
       .append("g")
       .attr("transform",
-        "translate(" + 40 + "," + 40 + ")");
+        "translate(" + 10 + "," + 5 + ")");
 
 
     svg3.selectAll(".listing-bar")
@@ -122,6 +144,7 @@ class ListingChart {
       })
       .attr("class", "listing-bar")
       .attr("id", function (d) { return d.year; })
+      .attr("data", function(d){ return d.num_of_listings; })
       .attr("x", function (d) {
         return x1(d.year);
       })
@@ -163,18 +186,34 @@ class ListingChart {
     // add the y Axis
     svg3.append("g")
       .call(d3.axisLeft(y2));
+
+    var lisitng_num=0;
+    result.forEach(function(d){
+      // console.log(d);
+      lisitng_num += +d.num_of_listings;
+    });
+    var num_of_years = Object.keys(result).length;
+    var min_year = result.reduce((min, some) => Math.min(min, some.year), result[0].year);
+    var max_year = result.reduce((max, some) => Math.max(max, some.year), result[0].year);
+    $("#listing_stat").text(lisitng_num+" listing total, "+(lisitng_num/num_of_years).toFixed(2)+" per year.");
+    $("#listing_count").text("Listings: "+lisitng_num);
+    $("#listing_range").text("Listings: "+min_year+"~"+max_year);
   }
 
   updateRangeValues(minyear, maxyear) {
     var bars = $(".listing-bar");
+    var listing_num=0;
     for (var i = 0; i < bars.length; i++) {
       var each_bar = $(bars[i]);
       if (minyear > each_bar.attr("id") || each_bar.attr("id") > maxyear) {
         each_bar.css("fill", "#DDD");
       } else {
+        listing_num += parseInt(each_bar.attr("data"));
         each_bar.css("fill", "#6bacd0");
       }
     }
+    $("#listing_count").text("Listings: "+listing_num);
+    $("#listing_range").text("Reviews: "+minyear+"~"+maxyear);
   }
 }
 
@@ -196,10 +235,10 @@ class BottomChart {
 
     var svg = d3.select("#bar_chart").append("svg")
                 .attr("width", width)
-                .attr("height", height + 100)
+                .attr("height", height+20)
                 .append("g")
                 .attr("transform",
-                  "translate(" + 40 + "," + 40 + ")");
+                  "translate(" + 400 + "," + 0 + ")");
 
 
     x.domain(result.map(function (d) { return d.neighbourhood; }));
