@@ -224,7 +224,7 @@ def prepFlowerData(review_weights, listings_weights, city_name, neighbourhoodIdM
         flowerReviewNodeObj['gtype'] = "neighbourhood"
         flowerReviewNodeObj['id'] = neighbourhoodIdMap[each_row]
         flowerReviewNodeObj['name'] = each_row
-        flowerReviewNodeObj['dif'] = 0 #Need to check
+        flowerReviewNodeObj['dif'] = float(review_weights[each_row]) - float(listings_weights[each_row]) # check again
         flowerReviewNodeObj['inf_in'] = 0 #Need to check
         flowerReviewNodeObj['inf_out'] = 0 #Need to check
         flowerReviewNodeObj['ratio'] = -1 
