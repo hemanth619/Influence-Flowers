@@ -40,6 +40,8 @@ def flower(request):
 @csrf_exempt
 def barchart(request):
 
+    responseJson = {}
+
     barchart_list = [[],[],[]]
 
 
@@ -65,22 +67,47 @@ def barchart(request):
         yearlyListingsObj['num_of_listings'] = each_row[1]
         barchart_list[2].append(yearlyListingsObj)
 
-    barchart_list[0] = computeBottomChartData(db_connection, city_name, country_name, str(2009), str(2019),str(2009), str(2019))
+    responseJson = computeChartData(db_connection, city_name, country_name, str(2009), str(2019),str(2009), str(2019))
+    responseJson['numReviews'] = barchart_list[1]
+    responseJson['numListings'] = barchart_list[2]
 
-    return JsonResponse(barchart_list, safe=False)
+    # print(responseJson)
+
+    return JsonResponse(responseJson, safe=False)
 
 @csrf_exempt
-def computeBottomChartData(db_connection, city_name, country_name, from_review_year, to_review_year, from_listing_year, to_listing_year):
+def computeChartData(db_connection, city_name, country_name, from_review_year, to_review_year, from_listing_year, to_listing_year):
+
+    responseData = {};
 
     barchart = []
     
     review_rows = db_connection.get_neighbourhood_reviews_between_years(city_name, country_name, from_review_year, to_review_year)
     listing_rows = db_connection.get_neighbourhood_listing_between_years(city_name, country_name, from_listing_year, to_listing_year)
 
-    review_list = {}
+    id = 0
+    neighbourhoodIdMap = {}
+    neighbourhoodIdMap[city_name] = id
 
+    review_list = {}
     for each_row in review_rows:
         review_list[each_row[0]] = each_row[1]
+        # Also compute the IDs for neighbourhood 
+        id +=1
+        neighbourhoodIdMap[each_row[0]] = id
+
+    # Compute review weights
+    review_weights = computeWeight(review_rows, "reviews", city_name, country_name)
+
+    
+
+    listings_list = {}
+    for each_row in listing_rows:
+        listings_list[each_row[0]] = each_row[1]
+        
+
+    # Compute listings weights
+    listings_weights = computeWeight(listing_rows, "listings", city_name, country_name)
 
 
     for each_row in listing_rows:
@@ -102,12 +129,119 @@ def computeBottomChartData(db_connection, city_name, country_name, from_review_y
         listingObj['type'] = "listing"
         barchart.append(listingObj)
 
-    return barchart
+    flowerData = prepFlowerData(review_weights, listings_weights, city_name, neighbourhoodIdMap)
+
+    responseData['bars'] = barchart
+    responseData['links'] = flowerData[0]
+    responseData['nodes'] = flowerData[1]
+        
+
+    return responseData
+
+def computeWeight(lists, listType, city_name, country_name):
+    db_connection = DBConnection()
+
+    weights = {}
+    if listType == "reviews":
+        reviewMaxMin = db_connection.getMaxMin(city_name, country_name, "reviews")
+        reviewMax = float(reviewMaxMin[0])
+        reviewMin = float(reviewMaxMin[1])
+        maxminDiff = reviewMax - reviewMin
+
+        for eachrow in lists:
+            weights[eachrow[0]] = (float(eachrow[1]) - reviewMin) / maxminDiff
+
+    else:
+        listingsMaxMin = db_connection.getMaxMin(city_name, country_name, "listings")
+        listingsMax = listingsMaxMin[0]
+        listingsMin = listingsMaxMin[1]
+        maxminDiff = listingsMax - listingsMin
+
+        for eachrow in lists:
+            weights[eachrow[0]] = (float(eachrow[1]) - listingsMin) / maxminDiff
+
+    return weights
+
+def prepFlowerData(review_weights, listings_weights, city_name, neighbourhoodIdMap):
+    db_connection = DBConnection()
+
+    flowerData = [[],[]]
+
+    flowerReviewNodeObj = {}
+    flowerReviewNodeObj['bloom_order'] = 0
+    flowerReviewNodeObj['hostels'] = "False"
+    flowerReviewNodeObj['filter_num'] = 0
+    flowerReviewNodeObj['gtype'] = "neighbourhood"
+    flowerReviewNodeObj['id'] = 0
+    flowerReviewNodeObj['name'] = json.loads(city_name)
+    flowerReviewNodeObj['diff'] = 0 #Need to check
+    flowerReviewNodeObj['inf_in'] = 0 #Need to check
+    flowerReviewNodeObj['inf_out'] = 0 #Need to check
+    flowerReviewNodeObj['ratio'] = -1 
+    flowerReviewNodeObj['size'] = 0 #Need to check
+    flowerReviewNodeObj['sum'] = 6.5 #Need to check
+    flowerReviewNodeObj['weight'] = 0 #Need to check
+    flowerReviewNodeObj['xpos'] = 0 #Need to check
+    flowerReviewNodeObj['ypos'] = 0 #Need to check
+    flowerData[1].append(flowerReviewNodeObj)
+
+
+
+    for each_row in review_weights:
+        # Link review obj 
+        flowerReviewDataObj = {}
+        flowerReviewDataObj['gtype'] = "neighbourhood"
+        flowerReviewDataObj['id'] = neighbourhoodIdMap[each_row]
+        flowerReviewDataObj['bloom_order'] = neighbourhoodIdMap[each_row]
+        flowerReviewDataObj['filter_num'] = 0
+        flowerReviewDataObj['padding'] = 1
+        flowerReviewDataObj['type'] = "in"
+        flowerReviewDataObj['source'] = each_row #neighbourhood
+        flowerReviewDataObj['target'] = json.loads(city_name)
+        flowerReviewDataObj['weight'] = review_weights[each_row]
+        flowerReviewDataObj['o_weight'] = 0 #Not sure what it needs to have
+        flowerData[0].append(flowerReviewDataObj)
+
+        # Link listing obj 
+        flowerListingDataObj = {}
+        flowerListingDataObj['gtype'] = "neighbourhood"
+        flowerListingDataObj['id'] = neighbourhoodIdMap[each_row]
+        flowerListingDataObj['bloom_order'] = neighbourhoodIdMap[each_row]
+        flowerListingDataObj['filter_num'] = 0
+        flowerListingDataObj['padding'] = 1
+        flowerListingDataObj['type'] = "out"
+        flowerListingDataObj['source'] = json.loads(city_name)
+        flowerListingDataObj['target'] = each_row
+        flowerListingDataObj['weight'] = listings_weights[each_row]
+        flowerListingDataObj['o_weight'] = 0 #Not sure what it needs to have
+        flowerData[0].append(flowerListingDataObj)
+
+        # Node Obj 
+        flowerReviewNodeObj = {}
+        flowerReviewNodeObj['bloom_order'] = neighbourhoodIdMap[each_row]
+        flowerReviewNodeObj['hostels'] = "False"
+        flowerReviewNodeObj['filter_num'] = 0
+        flowerReviewNodeObj['gtype'] = "neighbourhood"
+        flowerReviewNodeObj['id'] = neighbourhoodIdMap[each_row]
+        flowerReviewNodeObj['name'] = each_row
+        flowerReviewNodeObj['dif'] = 0 #Need to check
+        flowerReviewNodeObj['inf_in'] = 0 #Need to check
+        flowerReviewNodeObj['inf_out'] = 0 #Need to check
+        flowerReviewNodeObj['ratio'] = -1 
+        flowerReviewNodeObj['size'] = 0 #Need to check
+        flowerReviewNodeObj['sum'] = 6.5 #Need to check
+        flowerReviewNodeObj['weight'] = 0 #Need to check
+        flowerReviewNodeObj['xpos'] = 0 #Need to check
+        flowerReviewNodeObj['ypos'] = 0 #Need to check
+        flowerData[1].append(flowerReviewNodeObj)
+
+    return flowerData
+
 
 @csrf_exempt
 def regenerate(request):
     db_connection = DBConnection()
-    return_response = []
+    return_response = {}
     city_name = request.POST.get('city_name')
     country_name = request.POST.get('country_name')
     from_review_year = int(request.POST.get('from_review_year'))
@@ -115,6 +249,6 @@ def regenerate(request):
     from_listing_year = int(request.POST.get('from_listing_year'))
     to_listing_year = int(request.POST.get('to_listing_year'))
     
-    return_response = computeBottomChartData(db_connection, city_name, country_name, from_review_year, to_review_year, from_listing_year, to_listing_year)
+    return_response = computeChartData(db_connection, city_name, country_name, from_review_year, to_review_year, from_listing_year, to_listing_year)
 
     return JsonResponse(return_response, safe=False)

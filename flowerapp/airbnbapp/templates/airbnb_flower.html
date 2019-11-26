@@ -175,14 +175,15 @@
       data: { "city_name": JSON.stringify(city_name), "country_name": JSON.stringify(db_country_name.get(city_name)) },
       success: function (result) { // return data if success
 
+        console.log(result);
         //Bottom chart
-        bottom_chart.initChart(result[0]);
+        bottom_chart.initChart(result['bars']);
 
         //stat chart 1
-        review_chart.initChart(result[1]);
+        review_chart.initChart(result['numReviews']);
 
         //Stat chart 2
-        listing_chart.initChart(result[2]);
+        listing_chart.initChart(result['numListings']);
 
       },
       error: function (result) {
@@ -209,7 +210,7 @@
         success: function (result) {
           console.log(result);
           var bottom_chart = new BottomChart('#');
-          bottom_chart.initChart(result);
+          bottom_chart.initChart(result['bars']);
         }
       });
     });

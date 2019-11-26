@@ -67,4 +67,23 @@ class DBConnection:
         rows = cur.fetchall()
         return rows
 
-    
+    def getMaxMin(self, cityname, countryname, type):
+        cur = self.conn.cursor()
+        if type == "reviews":
+            max_query_string = "select sum(number_of_reviews) as max from " + countryname + " where City = " + cityname + " group by neighbourhood order by max desc limit 1;"
+            min_query_string = "select sum(number_of_reviews) as min from " + countryname + " where City = " + cityname + " group by neighbourhood order by min asc limit 1;"
+            cur.execute(max_query_string)
+            max_val = cur.fetchone()[0]
+            cur.execute(min_query_string)
+            min_val = cur.fetchone()[0]
+            
+        else:
+            max_query_string = "select count(*) as max from " + countryname + " where City = " + cityname + " group by neighbourhood order by max desc limit 1;"
+            min_query_string = "select count(*) as min from " + countryname + " where City = " + cityname + " group by neighbourhood order by min asc limit 1;"
+            cur.execute(max_query_string)
+            max_val = cur.fetchone()[0]
+            cur.execute(min_query_string)
+            min_val = cur.fetchone()[0]
+        
+        maxmin = [max_val, min_val]
+        return maxmin
