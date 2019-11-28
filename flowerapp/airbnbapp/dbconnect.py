@@ -62,10 +62,14 @@ class DBConnection:
 
     def get_listings_per_year(self, cityname, country):
         cur = self.conn.cursor()
-        query_string = "select strftime('%Y', first_review) as year, count(*) as number_of_listings from " + country + " group by year ;"
+        query_string = "select strftime('%Y', first_review) as year, count(*) as number_of_listings, id from " + country + " group by year ;"
         cur.execute(query_string)
         rows = cur.fetchall()
-        return rows
+        query_string2 = "select listing_id, count(*) as reviews_count, strftime('%Y', date) as year from "+ json.loads(cityname)+"_reviews group by year,listing_id;"
+        rows2 = cur.execute(query_string2).fetchall()
+        query_string4 = "select listing_id, count(*) as reviews_count, strftime('%Y', date) as review_year, strftime('%Y', first_review) as listing_year from "+json.loads(cityname)+"_reviews, "+country+" where City="+cityname+" and us_data.id=listing_id group by review_year,listing_id;"
+        rows4 = cur.execute(query_string4).fetchall()
+        return rows, rows2, rows4
 
     def getMaxMin(self, cityname, countryname, type):
         cur = self.conn.cursor()

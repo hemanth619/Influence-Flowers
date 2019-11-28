@@ -51,7 +51,7 @@ def barchart(request):
 
 
     reviews_per_year = db_connection.get_reviews_per_year(city_name)
-    listings_per_year = db_connection.get_listings_per_year(city_name, country_name)
+    listings_per_year, listing_reviews_info, rows_reviews  = db_connection.get_listings_per_year(city_name, country_name)
 
     # yearly_reviews = []
     for each_row in reviews_per_year:
@@ -65,12 +65,32 @@ def barchart(request):
         yearlyListingsObj = {}
         yearlyListingsObj['year'] = each_row[0]
         yearlyListingsObj['num_of_listings'] = each_row[1]
+        yearlyListingsObj['listing_info'] = []
+        for val in listing_reviews_info:
+            if(val[2] == each_row[0]):
+                review_obj = {}
+                review_obj['year'] = val[2]
+                review_obj['listing_id'] = val[0]
+                review_obj['num_of_reviews'] = val[1]
+                yearlyListingsObj['listing_info'].append(review_obj)
+
         barchart_list[2].append(yearlyListingsObj)
+    # yearly reviews of listings
+    listing_review_data = {'2009': {},'2010': {},'2011': {},'2012': {},'2013': {},'2014': {},'2015': {},'2016': {},'2017': {},'2018': {},'2019': {}}
+    for each_row in rows_reviews:
+        review_data = listing_review_data[each_row[3]]
+        if each_row[2] in review_data.keys():
+            #something
+            review_data[each_row[2]] += each_row[1]
+        else:
+            review_data = {'2009': 0,'2010': 0,'2011': 0,'2012': 0,'2013': 0,'2014': 0,'2015': 0,'2016': 0,'2017': 0,'2018': 0,'2019': 0}
+            review_data[each_row[2]] = each_row[1]
+        listing_review_data[each_row[3]] = review_data
 
     responseJson = computeChartData(db_connection, city_name, country_name, str(2009), str(2019),str(2009), str(2019))
     responseJson['numReviews'] = barchart_list[1]
     responseJson['numListings'] = barchart_list[2]
-
+    responseJson['listingsReviewsInfo'] = listing_review_data
     # print(responseJson)
 
     return JsonResponse(responseJson, safe=False)
@@ -174,7 +194,7 @@ def prepFlowerData(review_weights, listings_weights, city_name, neighbourhoodIdM
     flowerReviewNodeObj['gtype'] = "neighbourhood"
     flowerReviewNodeObj['id'] = 0
     flowerReviewNodeObj['name'] = json.loads(city_name)
-    flowerReviewNodeObj['diff'] = 0 #Need to check
+    flowerReviewNodeObj['dif'] = 0 
     flowerReviewNodeObj['inf_in'] = 0 #Need to check
     flowerReviewNodeObj['inf_out'] = 0 #Need to check
     flowerReviewNodeObj['ratio'] = -1 
@@ -185,7 +205,8 @@ def prepFlowerData(review_weights, listings_weights, city_name, neighbourhoodIdM
     flowerReviewNodeObj['ypos'] = 0 #Need to check
     flowerData[1].append(flowerReviewNodeObj)
 
-
+    # x_pos = float(0.00002)
+    # y_pos = float(0.00002)
 
     for each_row in review_weights:
         # Link review obj 
@@ -215,7 +236,7 @@ def prepFlowerData(review_weights, listings_weights, city_name, neighbourhoodIdM
         flowerListingDataObj['weight'] = listings_weights[each_row]
         flowerListingDataObj['o_weight'] = 0 #Not sure what it needs to have
         flowerData[0].append(flowerListingDataObj)
-
+        
         # Node Obj 
         flowerReviewNodeObj = {}
         flowerReviewNodeObj['bloom_order'] = neighbourhoodIdMap[each_row]
@@ -225,14 +246,14 @@ def prepFlowerData(review_weights, listings_weights, city_name, neighbourhoodIdM
         flowerReviewNodeObj['id'] = neighbourhoodIdMap[each_row]
         flowerReviewNodeObj['name'] = each_row
         flowerReviewNodeObj['dif'] = float(review_weights[each_row]) - float(listings_weights[each_row]) # check again
-        flowerReviewNodeObj['inf_in'] = 0 #Need to check
-        flowerReviewNodeObj['inf_out'] = 0 #Need to check
+        flowerReviewNodeObj['inf_in'] = review_weights[each_row] 
+        flowerReviewNodeObj['inf_out'] = listings_weights[each_row]
         flowerReviewNodeObj['ratio'] = -1 
-        flowerReviewNodeObj['size'] = 0 #Need to check
-        flowerReviewNodeObj['sum'] = 6.5 #Need to check
-        flowerReviewNodeObj['weight'] = 0 #Need to check
-        flowerReviewNodeObj['xpos'] = 0 #Need to check
-        flowerReviewNodeObj['ypos'] = 0 #Need to check
+        flowerReviewNodeObj['size'] = 0.5 #Need to check -- circle radius
+        flowerReviewNodeObj['sum'] = 6.5 #Need to check 
+        flowerReviewNodeObj['weight'] = 0.1 #Need to check --- color
+        flowerReviewNodeObj['xpos'] = 0 #Need to check 0.00002
+        flowerReviewNodeObj['ypos'] = 0 #Need to check 
         flowerData[1].append(flowerReviewNodeObj)
 
     return flowerData

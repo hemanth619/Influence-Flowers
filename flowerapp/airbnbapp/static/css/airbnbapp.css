@@ -68,3 +68,12 @@ div#listings_slider .noUi-connect {
   padding-top: 50px;
   min-height: 100%;
 } */
+.noUi-handle::after .noUi-handle::before{
+  display: none !important;
+}
+
+.grid line {
+  stroke: lightgrey;
+  stroke-opacity: 0.7;
+  shape-rendering: crispEdges;
+}
