@@ -2,14 +2,15 @@
 
 ## Dataset
 
-- Link: [Public link TBD](Currently the git repo with datasets, sqlitedb is available on the team gdrive)
+- Link: https://drive.google.com/open?id=1nK0kXxA4OIdPX5A87awZCWNt53Xi7p9N
+- Download this file into the root folder of the project
 
 ## Environment Setup
 
 ### Deployment Environment Setup
 
 - Download the dataset files from the above section and put these in the same folder structure in the github repo. Do not copy the .git folder while merging.
-- Make sure you have the latest version of Python3, pip installed
+- Make sure you have the latest version of Python3, pip, sympy installed
 - Set python environment if using conda  
 ➜ Influence-Flowers-Sai-Akshit-Sandeep-Raghul-Akshay git:(master) source /Users/sanadell/anaconda3/bin/activate  
 (base) ➜ Influence-Flowers-Sai-Akshit-Sandeep-Raghul-Akshay git:(master) conda activate base  
