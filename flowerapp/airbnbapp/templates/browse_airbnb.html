@@ -1,17 +1,26 @@
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static 'css/airbnbapp.css' %}" />
-<link rel="stylesheet" href="{% static 'css/skins/skin-custom.css' %}">
 <html>
-{% include 'header.html' %}
+{% include 'main_page_header.html' %}
 
 <body class="hold-transition skin-custom sidebar-mini">
   <div class="wrapper">
     <header class="main-header header-browse">
-      {% include 'pagehead.html' %}
+      {% include 'main_page_title_bar.html' %}
     </header>
-    {% include 'side-nav.html' %}
+    <aside class="main-sidebar" style="width: 270px; background-color: #222d32;">
+      <section class="sidebar">
+        <ul class="sidebar-menu">
+          <li class="treeview">
+            <a class="nav-item" data-displayname="Cities" href="" style="color:#fff;">
+              <span>Cities</span>
+            </a>
+          </li>
+      </section>
+    </aside>
 
-    <div style="min-height: 100%;margin-top: 50px;" class="content-wrapper content-wrapper-browse">
+    <div style="min-height: 100%;fill:#f9f9f9;background-color:#fff;margin-top: 50px;margin-left: 270px;
+    z-index: 800;" class="content-wrapper">
 
       <div class="content_section" data-displayname="Airbnb" data-level="g">
         <section class="content-header" style="padding-top: 5px;">
@@ -19,14 +28,11 @@
             Airbnb
           </h2>
         </section>
-
-        <div class="content_section" data-displayname="Cities" data-level="sg" data-g="Airbnb">
-
+        <div class="content_section" >
           <section class="content-header">
             <h4>
               Cities
             </h4>
-            <!-- <p style="font-size: 10px;">Select the genres from the list and click on <b>Generate</b></p> -->
           </section>
 
           <section class="content">
@@ -42,11 +48,6 @@
                   {% endfor %}
                 </div>
               </div>
-            </div>
-            <br><br>
-            <div class="row">
-              <div class="col-xs-12" style="margin-left: 15px;">
-                <button class="btn btn-primary submit-btn" type="submit">Generate</button></div>
             </div>
           </section>
 

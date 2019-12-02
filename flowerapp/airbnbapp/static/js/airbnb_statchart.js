@@ -9,22 +9,8 @@ class ReviewChart {
 
   initChart(result) {
     this.data = result;
-    this.svg2.selectAll("g").remove("g>*");
-    // this.listingdata = result['numListings'];
-    // var dataObj = [];
-    // this.listingdata.forEach(function(d){
-    //   var total_reviews = 0;
-    //   d.listing_info.forEach(function(d1){
-    //     total_reviews += d1.num_of_reviews;
-    //   });
-    //   var reviewObj = {
-    //     'year': d.year,
-    //     'num_of_reviews': total_reviews
-    //   };
-    //   dataObj.push(reviewObj);
-    // });
-    // // console.log(dataObj);
-    // this.data = dataObj;
+    this.svg2.selectAll("rect").remove();
+    this.svg2.selectAll("g").remove();
     var width = 350,
       height = 100;
     var x1 = d3.scaleBand()
@@ -46,7 +32,14 @@ class ReviewChart {
       // .append("g")
       // .attr("transform",
       //   "translate(" + 40 + "," + 40 + ")");
-
+      this.svg2.append("g")
+      .attr("class", "grid")
+      .call(d3.axisBottom(x1)
+        .tickSize(height).tickFormat(""));
+      
+        this.svg2.append("g")
+        .attr("class", "grid")
+        .call(d3.axisLeft(y1).tickSize(-width).tickFormat("").ticks(7));
 
     this.svg2.selectAll(".review-bar")
       .data(this.data)
@@ -65,21 +58,21 @@ class ReviewChart {
         return y1(d.num_of_reviews);
       })
       .attr("height", function (d) { return height - y1(d.num_of_reviews); })
-      .on("mouseover", function (d) {
-        var year = d.year;
-        this.svg2.selectAll("rect")
-          .style("opacity", function (d) {
-            if (d.year == year) {
-              return 1;
-            } else {
-              return 0.25;
-            }
-          })
-      })
-      .on("mouseout", function (d) {
-        this.svg2.selectAll("rect")
-          .style("opacity", 1);
-      })
+      // .on("mouseover", function (d) {
+      //   var year = d.year;
+      //   this.svg2.selectAll("rect")
+      //     .style("opacity", function (d) {
+      //       if (d.year == year) {
+      //         return 1;
+      //       } else {
+      //         return 0.25;
+      //       }
+      //     })
+      // })
+      // .on("mouseout", function (d) {
+      //   this.svg2.selectAll("rect")
+      //     .style("opacity", 1);
+      // })
 
 
       this.svg2.append("g")
@@ -89,10 +82,7 @@ class ReviewChart {
           return d;
         }));
     
-        this.svg2.append("g")
-      .attr("class", "grid")
-      .call(d3.axisBottom(x1)
-        .tickSize(height).tickFormat(""));
+        
 
     // add the y Axis
     this.svg2.append("g")
@@ -101,9 +91,7 @@ class ReviewChart {
         return +d/1000 + "K";
       }).ticks(7));
     
-      this.svg2.append("g")
-    .attr("class", "grid")
-    .call(d3.axisLeft(y1).tickSize(-width).tickFormat("").ticks(7));
+    
     
     var review_num=0;
     this.data.forEach(function(d){
@@ -160,7 +148,14 @@ class ListingChart {
       .append("g")
       .attr("transform",
         "translate(" + 40 + "," + 5 + ")");
-
+      
+      svg3.append("g")
+        .attr("class", "grid")
+        .call(d3.axisBottom(x1)
+          .tickSize(height).tickFormat(""));
+      svg3.append("g")
+      .attr("class", "grid")
+      .call(d3.axisLeft(y2).tickSize(-width).tickFormat("").ticks(7));
 
     svg3.selectAll(".listing-bar")
       .data(result)
@@ -179,21 +174,21 @@ class ListingChart {
         return y2(d.num_of_listings);
       })
       .attr("height", function (d) { return height - y2(d.num_of_listings); })
-      .on("mouseover", function (d) {
-        var year = d.year;
-        svg3.selectAll("rect")
-          .style("opacity", function (d) {
-            if (d.year == year) {
-              return 1;
-            } else {
-              return 0.25;
-            }
-          })
-      })
-      .on("mouseout", function (d) {
-        svg3.selectAll("rect")
-          .style("opacity", 1);
-      })
+      // .on("mouseover", function (d) {
+      //   var year = d.year;
+      //   svg3.selectAll("rect")
+      //     .style("opacity", function (d) {
+      //       if (d.year == year) {
+      //         return 1;
+      //       } else {
+      //         return 0.25;
+      //       }
+      //     })
+      // })
+      // .on("mouseout", function (d) {
+      //   svg3.selectAll("rect")
+      //     .style("opacity", 1);
+      // })
 
 
     svg3.append("g")
@@ -202,10 +197,7 @@ class ListingChart {
         .tickFormat(function (d) {
           return d;
         }));
-    svg3.append("g")
-    .attr("class", "grid")
-    .call(d3.axisBottom(x1)
-      .tickSize(height).tickFormat(""));
+    
     //   .selectAll("text")
     // .attr("y", 0)
     // .attr("x", 40)
@@ -219,9 +211,7 @@ class ListingChart {
         return +d/1000 + "K";
       }).ticks(7));
 
-    svg3.append("g")
-      .attr("class", "grid")
-      .call(d3.axisLeft(y2).tickSize(-width).tickFormat("").ticks(7));
+    
 
     var lisitng_num=0;
     result.forEach(function(d){
