@@ -12,6 +12,7 @@ function initTabPageEntity(flower_id, data, container_width, num_petals, entity_
     var nodes = data["nodes"];
     var links = data["links"].slice(0, num_petals * 2);
     var bars = data["bars"].slice(0, top_numbers * 2);
+    num_petals = Math.min(num_petals, (nodes.length-1));
 
     function get_theta(i) {
         var angles = get_angles(Math.PI, 0, num_petals);
@@ -268,7 +269,7 @@ function initTabPageEntity(flower_id, data, container_width, num_petals, entity_
     svg = d3.select(flower_id);
     var flower_radius = 250;
     var center = [container_width * 0.45, height * 0.6];
-    var ordering = {}
+    var ordering = {};
     for (var o = 0; o <= num_petals; o++) {
         // use the same order as the node bloom order since sorting is handled by backend
         ordering[o] = data.nodes[o].bloom_order
@@ -373,7 +374,6 @@ function initTabPageEntity(flower_id, data, container_width, num_petals, entity_
         })
         .attr("viewBox", "0 -5 10 10")
         .attr("refX", function (d) {
-            console.log(scale);
             return Math.max(9, get_node_radius(d.padding) / scale);
         })
         .attr("refY", function (d) {
