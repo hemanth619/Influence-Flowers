@@ -56,6 +56,14 @@
 - You can see other configurations which allow you to launch the Chrome Browser or [Browser Preview extension](https://marketplace.visualstudio.com/items?itemName=auchenberg.vscode-browser-preview) for debugging
 - The default port is 8001 and can be changed in the launch.json file under .vscode folder
 
+### Overview
+
+![Directors for Adventure, Action genre](https://github.com/asu-cse578-f2019/Influence-Flowers-Sai-Akshit-Sandeep-Raghul-Akshay/blob/master/screenshots/Screen%20Shot%202019-12-04%20at%2012.31.28%20PM.png)
+*Directors for Adventure, Action genre set*
+
+![Top 5 movies of Steven Spielberg in Adventure, Action genre](https://github.com/asu-cse578-f2019/Influence-Flowers-Sai-Akshit-Sandeep-Raghul-Akshay/blob/master/screenshots/Screen%20Shot%202019-12-04%20at%2012.31.53%20PM.png)
+*Top 5 movies of Steven Spielberg in Adventure, Action genre*
+
 ### Development Commands
 ```
 Import CSV into sqlite
