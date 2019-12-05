@@ -247,7 +247,7 @@ def prepFlowerData(review_weights, listings_weights, city_name, neighbourhoodIdM
     flowerReviewNodeObj['inf_in'] = 0 #Need to check
     flowerReviewNodeObj['inf_out'] = 0 #Need to check
     flowerReviewNodeObj['ratio'] = -1 
-    flowerReviewNodeObj['size'] = 1 #Need to check
+    flowerReviewNodeObj['size'] = 0.3 #Need to check
     flowerReviewNodeObj['sum'] = 6.5 #Need to check
     flowerReviewNodeObj['weight'] = 0 #Need to check
     # flowerReviewNodeObj['xpos'] = 0 #Need to check
@@ -482,7 +482,7 @@ def prepFlowerDataForZipCode(review_weights, listings_weights, city_name, neighb
     flowerReviewNodeObj['inf_in'] = 0 #Need to check
     flowerReviewNodeObj['inf_out'] = 0 #Need to check
     flowerReviewNodeObj['ratio'] = -1 
-    flowerReviewNodeObj['size'] = 1 #Need to check
+    flowerReviewNodeObj['size'] = 0.3 #Need to check
     flowerReviewNodeObj['sum'] = 6.5 #Need to check
     flowerReviewNodeObj['weight'] = 0 #Need to check
     # flowerReviewNodeObj['xpos'] = 0 #Need to check
