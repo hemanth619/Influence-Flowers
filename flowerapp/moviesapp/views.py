@@ -114,10 +114,10 @@ def flower(request):
     config["dataset_start_year"] = statpanel_json_list[0]["year"]
     config["dataset_end_year"] = statpanel_json_list[-1]["year"]
     config["total_num_years"] = config["end_year"]-config["start_year"]+1
-    config["avg_movies_per_year"] = math.floor(
-        total_movies/config["total_num_years"])
+    config["avg_movies_per_year"] = round(
+        (total_movies/config["total_num_years"]),2)
     config["total_votes"] = total_votes
-    config["avg_votes_per_movie"] = math.floor(total_votes/total_movies)
+    config["avg_votes_per_movie"] = round((total_votes/total_movies),2)
     data["config"] = config
 
     print('--------------------------')
