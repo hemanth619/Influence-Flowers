@@ -5,6 +5,7 @@
     var config_data = {{ config | safe }};
     var movies_count_data = {{ statpanel_data | safe }};
 </script>
+<script src="https://kit.fontawesome.com/69dd8b541f.js" crossorigin="anonymous"></script>
 <div class="sidepanel_1strow"></div>
 <div class="sidepanel_movies_barchart" id="noofmovies_chart" style="margin-bottom: 10px; margin-top: 10px"></div>
 <div class="slider nummovies-year-slider" id="noofmovies_range" style="margin: 10px 32px;"></div>
@@ -74,7 +75,7 @@
                 id="out-weight-expression">
         </div>
         <div align=center style="padding:5px;padding-top:30px ;">
-            <button class="btn btn-primary submit-btn" id="updateFlowerButton">Update Flower</button>
+            <button class="btn btn-primary submit-btn" id="updateFlowerButton"><i id="spinner_id" style="display: none;" class="fas fa-spinner fa-pulse"></i>&nbsp;Update Flower</button>
         </div>
     </div>
 </div>
@@ -88,6 +89,8 @@
     order_selector.value = "{{ config.total_influence }}";
 
     updateFlowerButton.addEventListener('click', function () {
+        $("#spinner_id").removeAttr("style");
+        
         config["num_petals"] = document.getElementById('petals-count').value;
         config["start_year"] = parseInt(document.getElementById('movies-year-start').textContent);
         config["end_year"] = parseInt(document.getElementById('movies-year-end').textContent);
@@ -120,6 +123,7 @@
                 config_data = result.config;
                 initTabPageEntity("#directors-plot", result.directors, width, parseInt($("#petals-count").val()), "directors");
                 initTabPageEntity("#writers-plot", result.writers, width, parseInt($("#petals-count").val()), "writers");
+                $("#spinner_id").attr("style","display: none");
             }
         });
     });
