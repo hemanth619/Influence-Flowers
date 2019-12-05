@@ -256,49 +256,58 @@ def prepFlowerData(review_weights, listings_weights, city_name, neighbourhoodIdM
 
     # x_pos = float(0.00002)
     # y_pos = float(0.00002)
-
+    id = 1
     for each_row in normalized_dict:
         # Link review obj 
         flowerReviewDataObj = {}
         flowerReviewDataObj['node_type'] = "neighbourhood"
-        flowerReviewDataObj['id'] = neighbourhoodIdMap[each_row]
-        flowerReviewDataObj['bloom_order'] = neighbourhoodIdMap[each_row]
+        flowerReviewDataObj['id'] = id #neighbourhoodIdMap[each_row]
+        flowerReviewDataObj['bloom_order'] = id #neighbourhoodIdMap[each_row]
         flowerReviewDataObj['filter_num'] = 0
         flowerReviewDataObj['padding'] = 0.01
         flowerReviewDataObj['type'] = "in"
-        flowerReviewDataObj['source'] = neighbourhoodIdMap[each_row] #neighbourhood
+        flowerReviewDataObj['source'] = id #neighbourhoodIdMap[each_row] #neighbourhood
         flowerReviewDataObj['target'] = 0
-        flowerReviewDataObj['weight'] = review_weights[each_row]
+        if review_weights[each_row] == 0.0:
+            flowerReviewDataObj['weight'] = 0.01
+        else:
+            flowerReviewDataObj['weight'] = review_weights[each_row]
         flowerReviewDataObj['o_weight'] = 0 #Not sure what it needs to have
         flowerData[0].append(flowerReviewDataObj)
 
         # Link listing obj 
         flowerListingDataObj = {}
         flowerListingDataObj['node_type'] = "neighbourhood"
-        flowerListingDataObj['id'] = neighbourhoodIdMap[each_row]
-        flowerListingDataObj['bloom_order'] = neighbourhoodIdMap[each_row]
+        flowerListingDataObj['id'] = id #neighbourhoodIdMap[each_row]
+        flowerListingDataObj['bloom_order'] = id #neighbourhoodIdMap[each_row]
         flowerListingDataObj['filter_num'] = 0
         flowerListingDataObj['padding'] = 0.01
         flowerListingDataObj['type'] = "out"
         flowerListingDataObj['source'] = 0
-        flowerListingDataObj['target'] = neighbourhoodIdMap[each_row]
-        flowerListingDataObj['weight'] = listings_weights[each_row]
+        flowerListingDataObj['target'] = id #neighbourhoodIdMap[each_row]
+        if listings_weights[each_row] == 0.0:
+            flowerListingDataObj['weight'] = 0.01
+        else:
+            flowerListingDataObj['weight'] = listings_weights[each_row]
         flowerListingDataObj['o_weight'] = 0 #Not sure what it needs to have
         flowerData[0].append(flowerListingDataObj)
         
         # Node Obj 
         flowerReviewNodeObj = {}
-        flowerReviewNodeObj['bloom_order'] = neighbourhoodIdMap[each_row]
+        flowerReviewNodeObj['bloom_order'] = id #neighbourhoodIdMap[each_row]
         flowerReviewNodeObj['hostels'] = "False"
         flowerReviewNodeObj['filter_num'] = 0
         flowerReviewNodeObj['node_type'] = "neighbourhood"
-        flowerReviewNodeObj['id'] = neighbourhoodIdMap[each_row]
+        flowerReviewNodeObj['id'] = id #neighbourhoodIdMap[each_row]
         flowerReviewNodeObj['name'] = each_row
         flowerReviewNodeObj['dif'] = float(review_weights[each_row]) - float(listings_weights[each_row]) # check again
         flowerReviewNodeObj['inf_in'] = review_weights[each_row] 
         flowerReviewNodeObj['inf_out'] = listings_weights[each_row]
         flowerReviewNodeObj['ratio'] = -1 
-        flowerReviewNodeObj['size'] = normalized_dict[each_row] #Need to check -- circle radius
+        if normalized_dict[each_row] == 0.0:
+            flowerReviewNodeObj['size'] = 0.01
+        else:
+            flowerReviewNodeObj['size'] = normalized_dict[each_row]
         flowerReviewNodeObj['sum'] = 6.5 #Need to check 
         if review_weights[each_row] > listings_weights[each_row]:
             flowerReviewNodeObj['weight'] = abs(abs(flowerReviewNodeObj['dif']) - 0.5)
@@ -316,7 +325,7 @@ def prepFlowerData(review_weights, listings_weights, city_name, neighbourhoodIdM
             property_type_dict['value'] = val
             property_type_list.append(property_type_dict)
         flowerReviewNodeObj['property_type'] = property_type_list
-
+        id += 1
         flowerData[1].append(flowerReviewNodeObj)
 
     return flowerData
@@ -482,49 +491,58 @@ def prepFlowerDataForZipCode(review_weights, listings_weights, city_name, neighb
 
     # x_pos = float(0.00002)
     # y_pos = float(0.00002)
-
+    id = 1
     for each_row in normalized_dict:
         # Link review obj 
         flowerReviewDataObj = {}
         flowerReviewDataObj['node_type'] = "zipcode"
-        flowerReviewDataObj['id'] = neighbourhoodIdMap[each_row]
-        flowerReviewDataObj['bloom_order'] = neighbourhoodIdMap[each_row]
+        flowerReviewDataObj['id'] = id #neighbourhoodIdMap[each_row]
+        flowerReviewDataObj['bloom_order'] = id #neighbourhoodIdMap[each_row]
         flowerReviewDataObj['filter_num'] = 0
         flowerReviewDataObj['padding'] = 0.01
         flowerReviewDataObj['type'] = "in"
-        flowerReviewDataObj['source'] = neighbourhoodIdMap[each_row] #neighbourhood
+        flowerReviewDataObj['source'] = id #neighbourhoodIdMap[each_row] #neighbourhood
         flowerReviewDataObj['target'] = 0
-        flowerReviewDataObj['weight'] = review_weights[each_row]
+        if review_weights[each_row] == 0.0:
+            flowerReviewDataObj['weight'] = 0.01
+        else:
+            flowerReviewDataObj['weight'] = review_weights[each_row]
         flowerReviewDataObj['o_weight'] = 0 #Not sure what it needs to have
         flowerData[0].append(flowerReviewDataObj)
 
         # Link listing obj 
         flowerListingDataObj = {}
         flowerListingDataObj['node_type'] = "zipcode"
-        flowerListingDataObj['id'] = neighbourhoodIdMap[each_row]
-        flowerListingDataObj['bloom_order'] = neighbourhoodIdMap[each_row]
+        flowerListingDataObj['id'] = id #neighbourhoodIdMap[each_row]
+        flowerListingDataObj['bloom_order'] = id #neighbourhoodIdMap[each_row]
         flowerListingDataObj['filter_num'] = 0
         flowerListingDataObj['padding'] = 0.01
         flowerListingDataObj['type'] = "out"
         flowerListingDataObj['source'] = 0
-        flowerListingDataObj['target'] = neighbourhoodIdMap[each_row]
-        flowerListingDataObj['weight'] = listings_weights[each_row]
+        flowerListingDataObj['target'] = id #neighbourhoodIdMap[each_row]
+        if listings_weights[each_row] == 0.0:
+            flowerListingDataObj['weight'] = 0.01
+        else:
+            flowerListingDataObj['weight'] = listings_weights[each_row]
         flowerListingDataObj['o_weight'] = 0 #Not sure what it needs to have
         flowerData[0].append(flowerListingDataObj)
         
         # Node Obj 
         flowerReviewNodeObj = {}
-        flowerReviewNodeObj['bloom_order'] = neighbourhoodIdMap[each_row]
+        flowerReviewNodeObj['bloom_order'] = id #neighbourhoodIdMap[each_row]
         flowerReviewNodeObj['hostels'] = "False"
         flowerReviewNodeObj['filter_num'] = 0
         flowerReviewNodeObj['node_type'] = "zipcode"
-        flowerReviewNodeObj['id'] = neighbourhoodIdMap[each_row]
+        flowerReviewNodeObj['id'] = id #neighbourhoodIdMap[each_row]
         flowerReviewNodeObj['name'] = each_row
         flowerReviewNodeObj['dif'] = float(review_weights[each_row]) - float(listings_weights[each_row]) # check again
         flowerReviewNodeObj['inf_in'] = review_weights[each_row] 
         flowerReviewNodeObj['inf_out'] = listings_weights[each_row]
         flowerReviewNodeObj['ratio'] = -1 
-        flowerReviewNodeObj['size'] = normalized_dict[each_row] #Need to check -- circle radius
+        if normalized_dict[each_row] == 0.0:
+            flowerReviewNodeObj['size'] = 0.01
+        else:
+            flowerReviewNodeObj['size'] = normalized_dict[each_row] #Need to check -- circle radius
         flowerReviewNodeObj['sum'] = 6.5 #Need to check 
         if flowerReviewNodeObj['dif']<=0:
             flowerReviewNodeObj['weight'] = 0.5 + abs(flowerReviewNodeObj['dif'])
@@ -544,5 +562,6 @@ def prepFlowerDataForZipCode(review_weights, listings_weights, city_name, neighb
             property_type_list.append(property_type_dict)
         flowerReviewNodeObj['property_type'] = property_type_list
         flowerData[1].append(flowerReviewNodeObj)
+        id += 1
 
     return flowerData

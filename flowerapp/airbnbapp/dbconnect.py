@@ -101,9 +101,9 @@ class DBConnection:
     def get_zipcode_reviews_between_years(self, cityname, countryname, from_year, to_year, include_bungalows):
         cur = self.conn.cursor()
         if include_bungalows == "true":
-            query_string = "select zipcode,  sum(number_of_reviews) as reviews_count from" + countryname + " where City=" + cityname + " and strftime('%Y', first_review) between '" + str(from_year) + "' and '" + str(to_year) +"' and zipcode<>'' group by CAST(zipcode as INT) order by reviews_count desc;"
+            query_string = "select zipcode,  sum(number_of_reviews) as reviews_count from" + countryname + " where City=" + cityname + " and strftime('%Y', first_review) between '" + str(from_year) + "' and '" + str(to_year) +"' and zipcode<>'0' and zipcode<>'' group by zipcode order by reviews_count desc;"
         else:
-            query_string = "select zipcode,  sum(number_of_reviews) as reviews_count from" + countryname + " where City=" + cityname + " and strftime('%Y', first_review) between '" + str(from_year) + "' and '" + str(to_year) +"' and zipcode<>'' and property_type<>'Bungalow' group by CAST(zipcode as INT) order by reviews_count desc;"
+            query_string = "select zipcode,  sum(number_of_reviews) as reviews_count from" + countryname + " where City=" + cityname + " and strftime('%Y', first_review) between '" + str(from_year) + "' and '" + str(to_year) +"' and zipcode<>'0' and zipcode<>'' and property_type<>'Bungalow' group by zipcode order by reviews_count desc;"
         cur.execute(query_string)
         rows = cur.fetchall()
         return rows
@@ -111,9 +111,9 @@ class DBConnection:
     def get_zipcode_listing_between_years(self, cityname, countryname, from_year, to_year, include_bungalows):
         cur = self.conn.cursor()
         if include_bungalows == "true":
-            query_string = "select zipcode, count(*) as listings_count from " + countryname + " where City = " + cityname + " and strftime('%Y',first_review) between '" + str(from_year) + "' and '" + str(to_year) + "' and zipcode<>'' group by CAST(zipcode as INT) order by listings_count desc ;"
+            query_string = "select zipcode, count(*) as listings_count from " + countryname + " where City = " + cityname + " and strftime('%Y',first_review) between '" + str(from_year) + "' and '" + str(to_year) + "' and zipcode<>'0' and zipcode<>'' group by zipcode order by listings_count desc ;"
         else:
-            query_string = "select zipcode, count(*) as listings_count from " + countryname + " where City = " + cityname + " and strftime('%Y',first_review) between '" + str(from_year) + "' and '" + str(to_year) + "' and zipcode<>'' and property_type<>'Bungalow' group by CAST(zipcode as INT) order by listings_count desc ;"
+            query_string = "select zipcode, count(*) as listings_count from " + countryname + " where City = " + cityname + " and strftime('%Y',first_review) between '" + str(from_year) + "' and '" + str(to_year) + "' and zipcode<>'0' and zipcode<>'' and property_type<>'Bungalow' group by zipcode order by listings_count desc ;"
         cur.execute(query_string)
         rows = cur.fetchall()
         return rows

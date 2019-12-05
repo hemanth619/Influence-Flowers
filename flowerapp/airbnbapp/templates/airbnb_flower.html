@@ -35,7 +35,7 @@
               </div>
             </div>
           </div>
-          <div id="statpane-section3" style="border-top:1px #eee solid;">
+          <div id="statpane-section3" style="border-top:1px #eee solid;margin: 15px;">
               <div style="padding: 10 15;">
                 <b>Selected Range (for flower)</b>
                 <div><span id="review_range"></span>&nbsp;<span id="listing_range"></span></div>
@@ -47,6 +47,7 @@
                 <br><span><b>num_reviews</b> - Total number of reviews received for all the listings in the neighborhood/zipcode in a city</span>
               </div>
               <div style="padding: 0 15;">
+                <br />
                 <b>Include Bungalows</b>
                 <input id="check_box" class="self-cite" type="checkbox" checked="checked" style="float:left; margin:5 10 0 0" name="self-cite" id="self-cite" />
               </div>
@@ -80,13 +81,13 @@
           <div role="tabpanel" class="tab-pane tab-flower active" id="tab-director">
             <h4>Neighbourhood</h4>
             <div align="center">
-              <svg id="neighbourhood-plot" width=1800 height=1600></svg>
+              <svg id="neighbourhood-plot" width=1800 height=1110></svg>
             </div>
           </div>
           <div role="tabpanel" class="tab-pane tab-flower" id="tab-writer">
             <h4>Zipcode</h4>
             <div align="center">
-              <svg id="zipcode-plot" width=1800 height=1600></svg>
+              <svg id="zipcode-plot" width=1800 height=1110></svg>
             </div>
           </div>
         </div>
@@ -255,9 +256,9 @@
 
         //Stat chart 2
         listing_chart.initChart(result[0]['numListings']);
-
-        initTabPageEntity("#neighbourhood-plot", result[0], 1200, $('#num_of_petals').val(), "neighbourhoods");
-        initTabPageEntity("#zipcode-plot", result[1], 1200, $('#num_of_petals').val(), "zipcodes");
+        var width =  document.getElementById('flower-container').offsetWidth;
+        initTabPageEntity("#neighbourhood-plot", result[0], width, $('#num_of_petals').val(), "neighbourhoods");
+        initTabPageEntity("#zipcode-plot", result[1], width, $('#num_of_petals').val(), "zipcodes");
 
       },
       error: function (result) {
@@ -294,8 +295,9 @@
           d3.select('#neighbourhood-plot').selectAll("text").remove();
           d3.select('#zipcode-plot').selectAll("text").remove();
           $("#spinner_id").attr("style","display: none");
-          initTabPageEntity("#neighbourhood-plot", result[0], 1200, $('#num_of_petals').val(), "neighbourhoods");
-          initTabPageEntity("#zipcode-plot", result[1], 1200, $('#num_of_petals').val(), "zipcodes");
+          var width =  document.getElementById('flower-container').offsetWidth;
+          initTabPageEntity("#neighbourhood-plot", result[0], width, $('#num_of_petals').val(), "neighbourhoods");
+          initTabPageEntity("#zipcode-plot", result[1], width, $('#num_of_petals').val(), "zipcodes");
         }
       });
     });

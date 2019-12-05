@@ -9,6 +9,7 @@ function initTabPageEntity(flower_id, data, container_width, num_petals, entity_
     var height = 1000;
 
     // hard coding fixed number of bars to be shown in addition to the petal order
+    num_petals = Math.min(num_petals, data["nodes"].length-1);
     var top_numbers = num_petals*2;
     var nodes = data["nodes"];
     var links = data["links"].slice(0, num_petals * 2);
